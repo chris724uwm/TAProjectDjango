@@ -1,6 +1,16 @@
-from memory import Memory
-from Course import Course
+from TAProject.models import AccountModel
+from TAProject.Course import Course
 classlist = []
+
+#NOTES
+#You may have to put these commands into the terminal if you get a no such table error
+#
+#python manage.py makemigrations
+#
+#python manage.py migrate --run-syncdb
+#
+#stack overflow link: https://stackoverflow.com/questions/12784835/django-no-such-table
+
 class Account:
 
     def __init__(self, username, password, name, address, email, phonenumber, accountFlag):
@@ -10,7 +20,7 @@ class Account:
         self.name = name
         self.address = address
         self.email = email
-        self. phonenumber = phonenumber
+        self.phonenumber = phonenumber
         self.accountFlag = accountFlag
 
     def createClass(self, stringList):
@@ -37,56 +47,54 @@ class Account:
     def create_account(self, stringList):
 
         # must have the right amount of arguments
-        if stringList.amount() != 7:
-            raise Exception("Account Creation Error: Wrong amount of information passed")
-            return
+        if len(stringList) != 7:
+            return "Account Creation Error: Wrong amount of information passed"
 
         # must have the right account permissions
         if self.accountFlag != 0:
-            raise Exception("Account Creation Error: You don't have permission")
-            return
+            return "Account Creation Error: You don't have permission"
 
         # last variable in stringList should be a number between 0-3
-        if stringList[7] is not int:
-            raise Exception("Account Creation Error: Wrong account type")
-            return
+        # convert accountFlag to int
+        stringList[6] = (int)(stringList[6])
+        if type(stringList[6]) is not int:
+            return "Account Creation Error: Wrong account type"
+
 
         # account flag must be 0-3
-        if stringList[7]<0 or stringList>3:
-            raise Exception("Account Creation Error: Invalid permissions given")
-            return
+        if stringList[6]<0 or stringList[6]>3:
+            return "Account Creation Error: Invalid permissions given"
 
         # check if passed account flag is correct
-        if stringList[7] is int and stringList[7]<0 or stringList[7]>3:
-            raise Exception("Account Creation Error: Invalid account type")
-            return
+        if stringList[6] is int and stringList[6]<0 or stringList[6]>3:
+            return"Account Creation Error: Invalid account type"
 
-        # call constructor with correct information
-        newAccount = Account(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5], stringList[6])
-
+        #create new AccountModel and save
+        #newAccount = Account(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5], stringList[6])
+        newAccount = AccountModel(username=stringList[0], password=stringList[1],
+                                  name=stringList[2], address=stringList[3],
+                                  email=stringList[4], phonenumber=stringList[5], accountFlag=stringList[6])
+        newAccount.save()
         # write it to memory
-        Memory.write_account(newAccount)
-        return
+        #Memory.write_account(newAccount)
+        return "account Created"
 
     def delete_account(self, stringList):
         # must have the right amount of arguments
-        if stringList.amount() != 1:
-            raise Exception("Account Deletion Error: Wrong amount of information passed")
-            return
+        if len(stringList) != 1:
+            return "Account Deletion Error: Wrong amount of information passed"
 
         # must have the right account permissions
         if self.accountFlag != 0:
-            raise Exception("Account Deletion Error: You don't have permission")
-            return
+            return "Account Deletion Error: You don't have permission"
 
         # username must be a str
-        if stringList[0] is not str:
-            raise Exception("Account Deletion Error: Incorrect username")
-            return
+        if type(stringList[0]) is not str:
+            return "Account Deletion Error: Incorrect username"
 
         # deletes account from memory
-        Memory.delete_account(stringList[0])
-        return
+
+        return "account deleted"
 
     # edit methods work for both admin/supervisor edits and self edits
     # stringList[0] = username, stringList[1] = updated_name
@@ -154,5 +162,5 @@ class Account:
         else:
             print("You don't have permissions to edit this")
 
-myDict = {"createaccount": "createAccount","deleteaccount": "deleteAccount", "createclass": createClass,
-              "editaccount": "editaccounts(username)", "printallclass": printAllClasses, "deleteclass": deleteClass}
+myDict = {"createaccount": "createAccount","deleteaccount": "deleteAccount", "createclass": "createClass",
+              "editaccount": "editaccounts(username)", "printallclass": "printAllClasses", "deleteclass": "deleteClass"}

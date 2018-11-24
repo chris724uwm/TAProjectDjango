@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from  TAProject.views import Home
-from TAProject import views
+import TAProject
+from TAProject.views import Home
+#from TAProject import views
 from django.conf.urls import url
 
 

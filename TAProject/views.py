@@ -1,7 +1,43 @@
 from django.shortcuts import render
 from django.views import View
+from TAProject.account import Account
 
-def addUser(args):
+#variable for current account
+#when starting makes a default supervisor account
+account = Account('superUser','superPassword', 'superName',
+                   'superAddress', 'superEmail', '1234567890', 0)
+
+def createAccount(args):
+  #if there are 8 things in args[] calls create_account in Account class
+  #else prints 'wrong amount of arguments'
+  if args[0] == 'createAccount':
+      if len(args) == 8:
+          return account.create_account(args[1:8])
+      else:
+          return "wrong amount of arguments"
+  else:
+      return ''
+
+def deleteAccount(args):
+  #if args[0] == deleteAccount,
+  #calls delete_account if there are 2 args
+
+  if args[0] == "deleteAccount":
+    if len(args) == 2:
+        return account.delete_account(args[1:2])
+    else:
+        return "wrong amount of arguments"
+  else:
+      return ""
+
+def editAccountPassword(args):
+
+  if args[0] == "addUser":
+    return "I am addUser"
+  else:
+     return ""
+
+def editAccountName(args):
   #if args[0] == addUser, adds user named args[1]
   #returns "User <args[1]> added" or "User <args[1]> exists"
   #else returns ""
@@ -10,27 +46,49 @@ def addUser(args):
   else:
      return ""
 
-def addItem(args):
-  #if args[0] == "addItem", adds item args[1] to user args[2]
-  #returns "Item <args[1]> added to user <args[2]>"
-  #or "User <args[2]> already has item <args[1]>"
-  #or "User <args[2]> does not exist"
+def editAccountAddress(args):
+  #if args[0] == addUser, adds user named args[1]
+  #returns "User <args[1]> added" or "User <args[1]> exists"
   #else returns ""
-  if args[0] == "addItem":
-    return "I am addItem"
+  if args[0] == "addUser":
+    return "I am addUser"
   else:
      return ""
 
-def display(args):
-  #if args[0] == display
-  #return a string with each user followed by their items
-  #items are indented
-  if args[0] == "display":
-    return "I am display"
+def editAccountEmail(args):
+  #if args[0] == addUser, adds user named args[1]
+  #returns "User <args[1]> added" or "User <args[1]> exists"
+  #else returns ""
+  if args[0] == "addUser":
+    return "I am addUser"
   else:
      return ""
 
-commandList = [addUser, addItem, display]
+def editAccountPhonenumber(args):
+  #if args[0] == addUser, adds user named args[1]
+  #returns "User <args[1]> added" or "User <args[1]> exists"
+  #else returns ""
+  if args[0] == "addUser":
+    return "I am addUser"
+  else:
+     return ""
+
+def viewAccount(args):
+  #if args[0] == addUser, adds user named args[1]
+  #returns "User <args[1]> added" or "User <args[1]> exists"
+  #else returns ""
+  if args[0] == "addUser":
+    return "I am addUser"
+  else:
+     return ""
+
+
+# <<<Add your commands to commandList>>>
+commandList = [createAccount, deleteAccount,
+               editAccountAddress, editAccountEmail,
+               editAccountName, editAccountPassword,
+               editAccountPhonenumber, viewAccount]
+
 def doStuff(s, commandList):
   args = s.split(" ")
   for i in commandList:
