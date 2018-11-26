@@ -69,15 +69,21 @@ class Account:
         if stringList[6] is int and stringList[6]<0 or stringList[6]>3:
             return"Account Creation Error: Invalid account type"
 
-        #create new AccountModel and save
-        #newAccount = Account(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5], stringList[6])
+
+        #check if username already exists
+        checkAccount = AccountModel.objects.filter(username=stringList[0])
+
+        if checkAccount:
+            return "Account Creation Error: Username Already Exists"
+
+        #create new AccountModel and save if username isnt taken
         newAccount = AccountModel(username=stringList[0], password=stringList[1],
                                   name=stringList[2], address=stringList[3],
                                   email=stringList[4], phonenumber=stringList[5], accountFlag=stringList[6])
         newAccount.save()
         # write it to memory
         #Memory.write_account(newAccount)
-        return "account Created"
+        return "Account Created"
 
     def delete_account(self, stringList):
         # must have the right amount of arguments
@@ -92,8 +98,13 @@ class Account:
         if type(stringList[0]) is not str:
             return "Account Deletion Error: Incorrect username"
 
-        # deletes account from memory
+        #checks if account exists
+        checkAccount = AccountModel.objects.filter(username=stringList[0])
+        if not checkAccount:
+            return "Account Deletion Error: No Such Account Exists"
 
+        # deletes account from memory
+        checkAccount.delete()
         return "account deleted"
 
     # edit methods work for both admin/supervisor edits and self edits

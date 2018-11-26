@@ -1,8 +1,11 @@
-from account import Account
+from TAProject.account import Account
+
 import unittest
 
 user = Account('Snowman', '20181225', 'SnowJackal', 'backyard',
                'merryXmas@winter.com', 414000111, 3)  # does flag number matters here?
+
+
 class TestAccountMethods(unittest.TestCase):
 
     def setUp(self):
