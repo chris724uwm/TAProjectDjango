@@ -91,7 +91,45 @@ def viewAccount(args):
     return "I am addUser"
   else:
      return ""
+def createCourse(args):
+  #if args[0] == addUser, adds user named args[1]
+  #returns "User <args[1]> added" or "User <args[1]> exists"
+  #else returns ""
+    if account is None:  # make sure an account is logged in
+      return "Nobody Logged in"
+    if args[0] == "createCourse":
+        return account.createClass(args)
+    else:
+        return ""
+def createLab(args):
+    if account is None:  # make sure an account is logged in
+        return "Nobody Logged in"
+    if args[0] == "createLab":
+        return account.createLab(args)
+    else:
+        return ""
+def printAllLab(args):
+    if args[0] == "printAllLab":
+        LabModel.objects.all().values()
+    else:
+        return ""
 
+
+def deleteCourse(args):
+    if account is None:  # make sure an account is logged in
+        return "Nobody Logged in"
+    if args[0]== "deleteCourse":
+        return account.deleteClass(args)
+    else:
+        return""
+def printAllCourses(args):
+    # if args[0] == addUser, adds user named args[1]
+    # returns "User <args[1]> added" or "User <args[1]> exists"
+    # else returns ""
+    if args[0] == "printAllCourses":
+        return CourseModel.objects.all().values()
+    else:
+        return ''
 def assignInstructorClass(args):
     #If args[0] == assigninstructorclass, adds Instructor to course.
     if args[0] == "assigninstructorclass":
@@ -175,7 +213,9 @@ def viewAll(args):
 commandList = [createAccount, deleteAccount,
                editAddress, editEmail,
                editName, editPassword,
-               editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA, viewAll]
+               editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA,
+               viewAll, createLab, printAllLab deleteCourse,
+               assignInstructorClass, assignTALab, assignTACourse,printAllCourses]
 
 def doStuff(s, commandList):
   args = s.split(" ")
