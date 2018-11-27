@@ -10,13 +10,13 @@ class AccountModel(models.Model):
     accountFlag = models.IntegerField()
 
 class CourseModel(models.Model):
-    number = models.IntegerField(validators=[MinValueValidator(0)])
+    number = models.IntegerField()
     name = models.CharField(max_length=20)
-    instructor = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True)
-    ta = models.ManyToManyField(AccountModel, on_delete=models.CASCADE, null=True)
+    instructor = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='instructor')
+    ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='ta')
 
-class LabModel(models.model):
-    number = models.IntegerField(validators=[MinValueValidator(0)])
+class LabModel(models.Model):
+    number = models.IntegerField()
     name = models.CharField(max_length=20)
     ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True)
     course = models.ForeignKey(CourseModel, on_delete=models.CASCADE)

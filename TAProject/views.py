@@ -106,7 +106,7 @@ def assignTALab(args):
 commandList = [createAccount, deleteAccount,
                editAccountAddress, editAccountEmail,
                editAccountName, editAccountPassword,
-               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTaLab]
+               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTALab]
 
 def doStuff(s, commandList):
   args = s.split(" ")
