@@ -15,7 +15,7 @@ class CourseModel(models.Model):
     instructor = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='instructor')
     ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='ta')
 
-Class LabModel(models.Model):
+class LabModel(models.Model):
     name = models.CharField(max_length=20)
     ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, blank= True)
     course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, null=True, blank = True)
