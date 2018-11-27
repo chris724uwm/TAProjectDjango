@@ -226,6 +226,22 @@ class Account:
                 print("phone number updated")
         else:
             print("You don't have permissions to edit this")
+    def view_my_TA(self):
+        z=0
+        if self.accountFlag == 2:
+            for x in range(0, len(classlist)):
+                if classlist[x].getInstructor == self.name:
+                    z = 1
+                    for e in AccountModel.objects.all():
+                        if classlist[x].getTA == e.name:
+                            tale = e.name, e.email, e.phonenumber
+                            return tale
+                        else:
+                            return "you dont have any TA assigned yet"
+            if z == 0:
+                return "you dont have any course assigned to you yet"
+        else:
+            return "you are not allowed to view TAs' information"
 
 myDict = {"createaccount": "createAccount","deleteaccount": "deleteAccount", "createclass": "createClass",
               "editaccount": "editaccounts(username)", "printallclass": "printAllClasses", "deleteclass": "deleteClass"}
