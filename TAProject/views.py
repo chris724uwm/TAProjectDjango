@@ -132,7 +132,7 @@ def printAllCourses(args):
         return ''
 def assignInstructorClass(args):
     #If args[0] == assigninstructorclass, adds Instructor to course.
-    if args[0] == "assigninstructorclass":
+    if args[0] == "assignInstructorClass":
         if account is None: #make sure account exists
             return "Nobody Logged in"
         if len(args)==3: #right number of arguements
