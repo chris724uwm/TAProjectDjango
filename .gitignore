@@ -2,4 +2,8 @@
 .idea/
 venv/
 db.sqlite3
+TAProject/__pycache__/
+TAProject/migrations/
+TAProjectDjango/__pycache__/
+__pycache__/
 
