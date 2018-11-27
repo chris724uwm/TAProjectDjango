@@ -82,12 +82,31 @@ def viewAccount(args):
   else:
      return ""
 
+def assignInstructorClass(args):
+    #If args[0] == assigninstructorclass, adds Instructor to course.
+    if args[0] == "assigninstructorclass":
+        if len(args)==3:
+            return account.assign_instructor_class(args[1:])
+        else:
+            return "Wrong number of arguments"
+    else:
+        return ""
+
+def assignTALab(args):
+    if args[0] == "assigntalab":
+        if len(args)==3:
+            return account.assign_TA_lab(args[1:])
+        else:
+            return "Wrong number of arguments"
+    else:
+        return ""
+
 
 # <<<Add your commands to commandList>>>
 commandList = [createAccount, deleteAccount,
                editAccountAddress, editAccountEmail,
                editAccountName, editAccountPassword,
-               editAccountPhonenumber, viewAccount]
+               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTaLab]
 
 def doStuff(s, commandList):
   args = s.split(" ")

@@ -28,14 +28,48 @@ class Account:
     def deleteClass(self, stringList):
         classlist.remove(classlist[int(stringList[1])])
 
-    def assign_instructor_class(self, instructor, id):
-        classlist[id].setInstructor(instructor)
+
+    def assign_instructor_class(self, stringlist):
+        #classlist[id].setInstructor(instructor)
+        if self.accountFlag!=0:  #Check if supervisor is issuing command
+            return "No Access to command"
+        if AccountModel.objects.filter(name=stringlist[0]).exists():  #Check if account exists
+            if CourseModel.objects.filter(id=int(stringlist[1])).exists():  #Check if course exists
+                a = AccountModel.objects.get(name=stringlist[0])  #get account
+                if a.accountFlag!=2:  #Make sure its instructor
+                    return "Not Instructor"
+                c = CourseModel.objects.get(id=int(stringlist[1]))  #Get course
+                if not c.instructor == None:  #Make sure course has no instructor
+                    return "Course has instructor"
+                else:
+                    c.instructor=a
+                    c.save()
+                    return "Instructor Added to Course" #Set instructor as account and saves
+            else:
+                return "Course doesn't exist"
+        else:
+            return "Account Doesn't exist"
 
     def unassign_instructor_class(self, id):
         classlist[id].setInstructor("No Instructor")
 
-    def assign_TA_class(self, T, id):
-        classlist[id].setTA(T)
+    def assign_TA_lab(self, stringlist):
+        if self.accountFlag>3:  #Instructor above can only use this command
+            return "No Access to command"
+        if LabModel.objects.filter(id=int(stringlist[1])).exists():  #Make sure lab exists
+            l = LabModel.objects.get(id=int(stringlist[1]))  #Get lab
+            if AccountModel.objects.filter(name=stringlist[0]).exists():  #Make sure account exists
+                a = AccountModel.objects.get(name=stringlist[0])  #Get account
+                if a.accountFlag!=3:  #Make sure account is TA
+                    return "You can only assign a TA to lab"
+                l.ta = a
+                l.save()
+                return "TA Added to course" #Ta is added and saved
+            else:
+                return "TA does not exist"
+
+        else:
+            return "Lab doesn't exist"
 
     def unassign_TA_class(self, id):
         classlist[id].setTA["No TA"]
