@@ -214,7 +214,7 @@ commandList = [createAccount, deleteAccount,
                editAddress, editEmail,
                editName, editPassword,
                editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA,
-               viewAll, createLab, printAllLab, deleteCourse,
+               viewAll, createLab, printAllLab,createCourse, deleteCourse,
                assignInstructorClass, assignTALab, assignTACourse,printAllCourses]
 
 def doStuff(s, commandList):
