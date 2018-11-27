@@ -169,7 +169,7 @@ class Account:
 
         # deletes account from memory
         checkAccount.delete()
-        return "account deleted"
+        return "Account Deleted"
 
     # edit methods work for both admin/supervisor edits and self edits
     # stringList[0] = username, stringList[1] = updated_name

@@ -7,6 +7,10 @@ from TAProject.account import Account
 #when starting makes a default supervisor account
 global account
 account = Account('superUser','superPassword', 'superName','superAddress', 'superEmail', '1234567890', 0)
+superuser = AccountModel(username=account.username,
+                         password=account.password,name=account.name,address=account.address,
+                         email=account.email,phonenumber=account.phonenumber,accountFlag=account.accountFlag)
+superuser.save()
 
 def getuser():  # Get current user
     return account
@@ -31,6 +35,8 @@ def deleteAccount(args):
   #calls delete_account if there are 2 args
 
   if args[0] == "deleteAccount":
+    if account is None:  # make sure an account is logged in
+      return "Nobody Logged in"
     if len(args) == 2:
         return account.delete_account(args[1:2])
     else:
@@ -40,6 +46,8 @@ def deleteAccount(args):
 
 def editPassword(args):
     if args[0] == "editPassword":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         if len(args) == 3:
             return account.edit_password(args[1:3])
         else:
@@ -49,6 +57,8 @@ def editPassword(args):
 
 def editName(args):
     if args[0] == "editName":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         if len(args) == 3:
             return account.edit_name(args[1:3])
         else:
@@ -58,6 +68,8 @@ def editName(args):
 
 def editAddress(args):
     if args[0] == "editAddress":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         if len(args) == 3:
             return account.edit_address(args[1:3])
         else:
@@ -67,6 +79,8 @@ def editAddress(args):
 
 def editEmail(args):
     if args[0] == "editEmail":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         if len(args) == 3:
             return account.edit_email(args[1:3])
         else:
@@ -76,6 +90,8 @@ def editEmail(args):
 
 def editPhonenumber(args):
     if args[0] == "editPhonenumber":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         if len(args) == 3:
             return account.edit_phonenumber(args[1:3])
         else:
@@ -199,12 +215,16 @@ def logout(args):  # Log Off Command, extra is unnecessary arguments passed thro
 
 def viewMyTA(args):
     if args[0] == "viewMyTA":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         return account.view_my_TA()
     else:
         return ""
 
 def viewAll(args):
     if args[0] == "viewAll":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
         return account.view_all()
     else:
         return ""
