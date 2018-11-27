@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Django model lab</h1>
+  <h1 style="text-align: center; margin-top: 2em;">TA Project Sprint 2</h1>
+<div style="text-align: center; margin-top:2em;">
   <form method="post" action="/">
   {% csrf_token %}
-  command: <input type="text" name="command"/><input type="submit"/>
+  <label for="command_input" style="margin-right: 1em;">Command:</label><input id="command_input" type="text" name="command" style="width: 400px"/><input type="submit" style="margin-left: 1em;"/>
   </form>
-  <div id="out">{{out}}</div>
+  <div id="out" style="margin-top: 2em;">{{out}}</div>
+</div>
+
 {% endblock content %}

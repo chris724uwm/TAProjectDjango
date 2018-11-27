@@ -109,69 +109,119 @@ class Account:
 
     # edit methods work for both admin/supervisor edits and self edits
     # stringList[0] = username, stringList[1] = updated_name
-    def edit_account_password(self, string_list):
-        if self.username == string_list[0] or self.accountFlag == 0 or self.accountFlag == 1:
+    def edit_password(self, string_list):
+        if self.username == string_list[0]: #user is updating their own password
             if self.password == string_list[1]:
-                print("it is the current password")
-            elif string_list[1] is None:
-                print("please enter something")
+                return "Password entered is already " + string_list[0] + "'s current password."
             else:
                 self.password = string_list[1]
-                print("password updated")
+                self.save(update_fields=['password'])
+                return "Password updated."
+        elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's password
+            if AccountModel.objects.filter(username=string_list[0]).count() > 0:
+                user = AccountModel.objects.get(username=string_list[0])
+                if user.password == string_list[1]:
+                    return "Password entered is already " + string_list[0] + "'s current password."
+                else:
+                    user.password = string_list[1]
+                    user.save(update_fields=['password'])
+                    return "Password updated."
+            else:
+                return "Error: username " + string_list[0] + " not found."
         else:
-            print("You don't have permissions to edit this")
+            return "You don't have permissions to edit this"
 
     # stringList[0] = username, stringList[1] = updated_name
-    def edit_account_name(self, string_list):
-        if self.username == string_list[0] or self.accountFlag == 0 or self.accountFlag == 1:
+    def edit_name(self, string_list):
+        if self.username == string_list[0]: #user is updating their own name
             if self.name == string_list[1]:
-                print("it is the current name")
-            elif string_list[1] is None:
-                print("please enter something")
+                return "Name entered is already " + string_list[0] + "'s current name."
             else:
                 self.name = string_list[1]
-                print("name updated")
+                self.save(update_fields=['name'])
+                return "Name updated."
+        elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's name
+            if AccountModel.objects.filter(username=string_list[0]).count() > 0:
+                user = AccountModel.objects.get(username=string_list[0])
+                if user.name == string_list[1]:
+                    return "Name entered is already " + string_list[0] + "'s current name."
+                else:
+                    user.name = string_list[1]
+                    user.save(update_fields=['name'])
+                    return "Name updated."
+            else:
+                return "Error: username " + string_list[0] + " not found."
         else:
-            print("You don't have permissions to edit this")
+            return "You don't have permissions to edit this"
 
     # stringList[0] = username, stringList[1] = updated_address
-    def edit_account_address(self, string_list):
-        if self.username == string_list[0] or self.accountFlag == 0 or self.accountFlag == 1:
+    def edit_address(self, string_list):
+        if self.username == string_list[0]: #user is updating their own address
             if self.address == string_list[1]:
-                print("it is the current address")
-            elif string_list[1] is None:
-                print("please enter something")
+                return "Address entered is already " + string_list[0] + "'s current address."
             else:
                 self.address = string_list[1]
-                print("address updated")
+                self.save(update_fields=['address'])
+                return "Address updated."
+        elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's address
+            if AccountModel.objects.filter(username=string_list[0]).count() > 0:
+                user = AccountModel.objects.get(username=string_list[0])
+                if user.address == string_list[1]:
+                    return "Address entered is already " + string_list[0] + "'s current address."
+                else:
+                    user.address = string_list[1]
+                    user.save(update_fields=['address'])
+                    return "Address updated."
+            else:
+                return "Error: username " + string_list[0] + " not found."
         else:
-            print("You don't have permissions to edit this")
+            return "You don't have permissions to edit this"
 
     # stringList[0] = username, stringList[1] = updated_email
-    def edit_account_email(self, string_list):
-        if self.username == string_list[0] or self.accountFlag == 0 or self.accountFlag == 1:
+    def edit_email(self, string_list):
+        if self.username == string_list[0]: #user is updating their own email
             if self.email == string_list[1]:
-                print("it is the current email")
-            elif string_list[1] is None:
-                print("please enter something")
+                return "Email entered is already " + string_list[0] + "'s current email."
             else:
                 self.email = string_list[1]
-                print("email updated")
+                self.save(update_fields=['email'])
+                return "Email updated."
+        elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's email
+            if AccountModel.objects.filter(username=string_list[0]).count() > 0:
+                user = AccountModel.objects.get(username=string_list[0])
+                if user.email == string_list[1]:
+                    return "Email entered is already " + string_list[0] + "'s current email."
+                else:
+                    user.email = string_list[1]
+                    user.save(update_fields=['email'])
+                    return "Email updated."
+            else:
+                return "Error: username " + string_list[0] + " not found."
         else:
-            print("You don't have permissions to edit this")
+            return "You don't have permissions to edit this"
 
     # stringList[0] = username, stringList[1] = updated_phone_number
-    def edit_account_phonenumber(self, string_list):
-        if self.username == string_list[0] or self.accountFlag == 0 or self.accountFlag == 1:
+    def edit_phonenumber(self, string_list):
+        if self.username == string_list[0]: #user is updating their own phonenumber
             if self.phonenumber == string_list[1]:
-                print("it is the current phone number")
-            elif string_list[1] is None:
-                print("please enter something")
+                return "Phonenumber entered is already " + string_list[0] + "'s current phonenumber."
             else:
                 self.phonenumber = string_list[1]
-                print("phone number updated")
+                self.save(update_fields=['phonenumber'])
+                return "Phonenumber updated."
+        elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's phonenumber
+            if AccountModel.objects.filter(username=string_list[0]).count() > 0:
+                user = AccountModel.objects.get(username=string_list[0])
+                if user.phonenumber == string_list[1]:
+                    return "Phonenumber entered is already " + string_list[0] + "'s current phonenumber."
+                else:
+                    user.phonenumber = string_list[1]
+                    user.save(update_fields=['phonenumber'])
+                    return "Phonenumber updated."
+            else:
+                return "Error: username " + string_list[0] + " not found."
         else:
-            print("You don't have permissions to edit this")
+            return "You don't have permissions to edit this"
 
 myDict = {"createaccount": "createAccount","deleteaccount": "deleteAccount", "createclass": "createClass",
               "editaccount": "editaccounts(username)", "printallclass": "printAllClasses", "deleteclass": "deleteClass"}

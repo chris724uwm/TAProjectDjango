@@ -30,48 +30,50 @@ def deleteAccount(args):
   else:
       return ""
 
-def editAccountPassword(args):
+def editPassword(args):
+    if args[0] == "editPassword":
+        if len(args) == 3:
+            return account.edit_password(args[1:3])
+        else:
+            return "Wrong number of arguments."
+    else:
+        return ''
 
-  if args[0] == "addUser":
-    return "I am addUser"
-  else:
-     return ""
+def editName(args):
+    if args[0] == "editName":
+        if len(args) == 3:
+            return account.edit_name(args[1:3])
+        else:
+            return "Wrong number of arguments."
+    else:
+        return ''
 
-def editAccountName(args):
-  #if args[0] == addUser, adds user named args[1]
-  #returns "User <args[1]> added" or "User <args[1]> exists"
-  #else returns ""
-  if args[0] == "addUser":
-    return "I am addUser"
-  else:
-     return ""
+def editAddress(args):
+    if args[0] == "editAddress":
+        if len(args) == 3:
+            return account.edit_address(args[1:3])
+        else:
+            return "Wrong number of arguments."
+    else:
+        return ''
 
-def editAccountAddress(args):
-  #if args[0] == addUser, adds user named args[1]
-  #returns "User <args[1]> added" or "User <args[1]> exists"
-  #else returns ""
-  if args[0] == "addUser":
-    return "I am addUser"
-  else:
-     return ""
+def editEmail(args):
+    if args[0] == "editEmail":
+        if len(args) == 3:
+            return account.edit_email(args[1:3])
+        else:
+            return "Wrong number of arguments."
+    else:
+        return ''
 
-def editAccountEmail(args):
-  #if args[0] == addUser, adds user named args[1]
-  #returns "User <args[1]> added" or "User <args[1]> exists"
-  #else returns ""
-  if args[0] == "addUser":
-    return "I am addUser"
-  else:
-     return ""
-
-def editAccountPhonenumber(args):
-  #if args[0] == addUser, adds user named args[1]
-  #returns "User <args[1]> added" or "User <args[1]> exists"
-  #else returns ""
-  if args[0] == "addUser":
-    return "I am addUser"
-  else:
-     return ""
+def editPhonenumber(args):
+    if args[0] == "editPhonenumber":
+        if len(args) == 3:
+            return account.edit_phonenumber(args[1:3])
+        else:
+            return "Wrong number of arguments."
+    else:
+        return ''
 
 def viewAccount(args):
   #if args[0] == addUser, adds user named args[1]
@@ -82,12 +84,11 @@ def viewAccount(args):
   else:
      return ""
 
-
 # <<<Add your commands to commandList>>>
 commandList = [createAccount, deleteAccount,
-               editAccountAddress, editAccountEmail,
-               editAccountName, editAccountPassword,
-               editAccountPhonenumber, viewAccount]
+               editAddress, editEmail,
+               editName, editPassword,
+               editPhonenumber, viewAccount]
 
 def doStuff(s, commandList):
   args = s.split(" ")
