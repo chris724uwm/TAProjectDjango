@@ -6,7 +6,7 @@
   {% csrf_token %}
   <label for="command_input" style="margin-right: 1em;">Command:</label><input id="command_input" type="text" name="command" style="width: 400px"/><input type="submit" style="margin-left: 1em;"/>
   </form>
-  <div id="out" style="margin-top: 2em;">{{out}}</div>
+  <div id="out" style="margin: 2em 10em;">{{out|linebreaks}}</div>
 </div>
 
 {% endblock content %}

@@ -163,14 +163,19 @@ def viewMyTA(args):
     if args[0] == "viewMyTA":
         return account.view_my_TA()
     else:
-        return " "
+        return ""
 
+def viewAll(args):
+    if args[0] == "viewAll":
+        return account.view_all()
+    else:
+        return ""
 
 # <<<Add your commands to commandList>>>
 commandList = [createAccount, deleteAccount,
                editAddress, editEmail,
                editName, editPassword,
-               editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA]
+               editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA, viewAll]
 
 def doStuff(s, commandList):
   args = s.split(" ")

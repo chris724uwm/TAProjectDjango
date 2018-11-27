@@ -294,5 +294,15 @@ class Account:
         else:
             return "you are not allowed to view TAs' information"
 
+    def view_all(self):
+        if self.accountFlag == 0 or self.accountFlag == 1:
+            all_info = ""
+            for a in AccountModel.objects.all():
+                all_info += "Username: " + a.username + ", password: " + a.password + ", name: " + a.name + ", address: " + a.address + ", email: " + a.email + ", phonenumber: " + a.phonenumber + ", account flag: " + str(a.accountFlag)
+                all_info += '\n'
+            return all_info
+        else:
+            return "You don't have permissions to view all information."
+
 myDict = {"createaccount": "createAccount","deleteaccount": "deleteAccount", "createclass": "createClass",
               "editaccount": "editaccounts(username)", "printallclass": "printAllClasses", "deleteclass": "deleteClass"}
