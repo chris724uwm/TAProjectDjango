@@ -23,11 +23,21 @@ class Account:
         self.phonenumber = phonenumber
         self.accountFlag = accountFlag
 
+   
     def createClass(self, stringList):
-        classlist.append(Course(classlist.__len__(), stringList[1]))
-    def deleteClass(self, stringList):
-        classlist.remove(classlist[int(stringList[1])])
 
+        newCourse = CourseModel(number=stringList[1], name=stringList[2])
+        newCourse.save()
+        return "Class Created"
+    def createLab(self, stringList):
+
+        newLab = LabModel(name = stringList[1])
+        newLab.save()
+        return "Lab Created"
+
+    def deleteClass(self, stringList):
+        CourseModel.objects.filter(number=int(stringList[1])).delete()
+        return "Course Deleted"
 
     def assign_instructor_class(self, stringlist):
         #classlist[id].setInstructor(instructor)
@@ -55,21 +65,21 @@ class Account:
             return "No Access to command"
         if AccountModel.objects.filter(username=stringlist[0]).exists():  #Check if account exists
             if CourseModel.objects.filter(id=int(stringlist[1])).exists():  #Check if course exists
-                a = AccountModel.objects.get(usernamee=stringlist[0])  #get account
+                a = AccountModel.objects.get(username=stringlist[0])  #get account
                 if a.accountFlag!=3:  #Make sure its TA
-                    return "Not Instructor"
+                    return "Not TA"
                 c = CourseModel.objects.get(id=int(stringlist[1]))  #Get course
-                if not c.instructor == None:  #Make sure course has no ta
+                if not c.ta == None:  #Make sure course has no ta
                     return "Course has instructor"
                 else:
-                    c.instructor=a
+                    c.ta=a
                     c.save()
-                    return "Instructor Added to Course" #Set instructor as account and saves
+                    return "TA Added to Course" #Set instructor as account and saves
             else:
                 return "Course doesn't exist"
         else:
             return "Account Doesn't exist"
-
+        
     def unassign_instructor_class(self, id):
         classlist[id].setInstructor("No Instructor")
 
