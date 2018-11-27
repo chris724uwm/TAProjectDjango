@@ -157,11 +157,18 @@ def logout(args):  # Log Off Command, extra is unnecessary arguments passed thro
     else:
         return ""
 
+def viewMyTA(args):
+    if args[0] == "viewMyTA":
+        return account.view_my_TA()
+    else:
+        return " "
+
+
 # <<<Add your commands to commandList>>>
 commandList = [createAccount, deleteAccount,
                editAccountAddress, editAccountEmail,
                editAccountName, editAccountPassword,
-               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout]
+               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA]
 
 def doStuff(s, commandList):
   args = s.split(" ")
