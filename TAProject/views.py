@@ -1,11 +1,19 @@
 from django.shortcuts import render
 from django.views import View
+from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
 
 #variable for current account
 #when starting makes a default supervisor account
-account = Account('superUser','superPassword', 'superName',
-                   'superAddress', 'superEmail', '1234567890', 0)
+global account
+account = Account('superUser','superPassword', 'superName','superAddress', 'superEmail', '1234567890', 0)
+
+def getuser():  # Get current user
+    return account
+
+def setuser(user):
+    global account
+    account = user
 
 def createAccount(args):
   #if there are 8 things in args[] calls create_account in Account class
@@ -85,7 +93,9 @@ def viewAccount(args):
 def assignInstructorClass(args):
     #If args[0] == assigninstructorclass, adds Instructor to course.
     if args[0] == "assigninstructorclass":
-        if len(args)==3:
+        if account is None: #make sure account exists
+            return "Nobody Logged in"
+        if len(args)==3: #right number of arguements
             return account.assign_instructor_class(args[1:])
         else:
             return "Wrong number of arguments"
@@ -93,20 +103,65 @@ def assignInstructorClass(args):
         return ""
 
 def assignTALab(args):
-    if args[0] == "assigntalab":
-        if len(args)==3:
+    if args[0] == "assigntalab": #make sure this command is being called
+        if account is None:  #make sure an account is logged in
+            return "Nobody Logged in"
+        if len(args)==3:  #make sure right number of arguments
             return account.assign_TA_lab(args[1:])
         else:
             return "Wrong number of arguments"
     else:
         return ""
 
+def assignTACourse(args):
+    if args[0] == "assigntaclass": #make sure this command is being called
+        if account is None:  #make sure an account is logged in
+            return "Nobody Logged in"
+        if len(args)==3:  #make sure right number of arguments
+            return account.assign_TA_class(args[1:])
+        else:
+            return "Wrong number of arguments"
+    else:
+        return ""
+
+
+def login(args):
+    if args[0] == "login":  #this command is called
+        if len(args) != 3:  #Right amount of args
+            return "Error"
+        elif not account is None:  # no one else is logged in
+            return "Another User is logged in"
+        else:
+            if AccountModel.objects.filter(username=args[1]).exists():  # check is account with that user exists
+                a = AccountModel.objects.get(username=args[1])  #check is passwords match
+                if not a.password == args[2]:  #passwords dont match
+                    return "Wrong Password"
+                user = Account(a.username, a.password, a.name, a.address, a.email, a.phonenumber, a.accountFlag) #setaccount
+                setuser(user)
+                return "Login Success"
+            else:
+               return "No such Username"
+    else:
+        return""
+
+def logout(args):  # Log Off Command, extra is unnecessary arguments passed through
+    user = getuser()
+    if args[0] == "logout":
+        if len(args) > 1:  # If any extra arguments
+            return "Error"
+        if user is None:  # We can't logoff if there is nobody to logoff
+            return "Error"
+        else:  # Set current user to none since no one is logged in
+            setuser(None)
+            return "Logout Success"
+    else:
+        return ""
 
 # <<<Add your commands to commandList>>>
 commandList = [createAccount, deleteAccount,
                editAccountAddress, editAccountEmail,
                editAccountName, editAccountPassword,
-               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTALab]
+               editAccountPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout]
 
 def doStuff(s, commandList):
   args = s.split(" ")
