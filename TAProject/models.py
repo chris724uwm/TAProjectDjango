@@ -10,13 +10,12 @@ class AccountModel(models.Model):
     accountFlag = models.IntegerField()
 
 class CourseModel(models.Model):
-    number = models.IntegerField()
+    number = models.CharField(max_length=20)
     name = models.CharField(max_length=20)
     instructor = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='instructor')
     ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name='ta')
 
-class LabModel(models.Model):
-    number = models.IntegerField()
+Class LabModel(models.Model):
     name = models.CharField(max_length=20)
-    ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True)
-    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE)
+    ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, blank= True)
+    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, null=True, blank = True)
