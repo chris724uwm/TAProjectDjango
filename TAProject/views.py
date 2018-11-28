@@ -19,6 +19,14 @@ def setuser(user):
     global account
     account = user
 
+# def help(args):
+#     #command list
+#     if args[0] == "help":
+#         if account.accountFlag == 0:
+#             return "1.createAccount\n2.deleteAccount\n3.editPassword"
+#     else:
+#         return ""
+
 def createAccount(args):
   #if there are 8 things in args[] calls create_account in Account class
   #else prints 'wrong amount of arguments'

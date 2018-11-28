@@ -305,7 +305,7 @@ class Account:
                     z = 1
                     for e in AccountModel.objects.all():
                         if classlist[x].getTA == e.name:
-                            tale = e.name, e.email, e.phonenumber
+                            tale = e.name, "|", e.email, "|", e.phonenumber
                             return tale
                         else:
                             return "you dont have any TA assigned yet"
