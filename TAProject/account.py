@@ -174,6 +174,8 @@ class Account:
     # edit methods work for both admin/supervisor edits and self edits
     # stringList[0] = username, stringList[1] = updated_name
     def edit_password(self, string_list):
+        if len(string_list) != 2:
+            return "Wrong number of arguments."
         if self.username == string_list[0]: #user is updating their own password
             if self.password == string_list[1]:
                 return "Password entered is already " + string_list[0] + "'s current password."
@@ -197,6 +199,8 @@ class Account:
 
     # stringList[0] = username, stringList[1] = updated_name
     def edit_name(self, string_list):
+        if len(string_list) != 2:
+            return "Wrong number of arguments."
         if self.username == string_list[0]: #user is updating their own name
             if self.name == string_list[1]:
                 return "Name entered is already " + string_list[0] + "'s current name."
@@ -220,6 +224,8 @@ class Account:
 
     # stringList[0] = username, stringList[1] = updated_address
     def edit_address(self, string_list):
+        if len(string_list) != 2:
+            return "Wrong number of arguments."
         if self.username == string_list[0]: #user is updating their own address
             if self.address == string_list[1]:
                 return "Address entered is already " + string_list[0] + "'s current address."
@@ -243,6 +249,8 @@ class Account:
 
     # stringList[0] = username, stringList[1] = updated_email
     def edit_email(self, string_list):
+        if len(string_list) != 2:
+            return "Wrong number of arguments."
         if self.username == string_list[0]: #user is updating their own email
             if self.email == string_list[1]:
                 return "Email entered is already " + string_list[0] + "'s current email."
@@ -266,6 +274,8 @@ class Account:
 
     # stringList[0] = username, stringList[1] = updated_phone_number
     def edit_phonenumber(self, string_list):
+        if len(string_list) != 2:
+            return "Wrong number of arguments."
         if self.username == string_list[0]: #user is updating their own phonenumber
             if self.phonenumber == string_list[1]:
                 return "Phonenumber entered is already " + string_list[0] + "'s current phonenumber."
