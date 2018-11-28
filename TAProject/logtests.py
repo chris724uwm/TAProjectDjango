@@ -1,54 +1,61 @@
-from main import Project
-import main
-import unittest
+from django.test import TestCase
+from TAProject.views import login,logout
+from TAProject.models import AccountModel, LabModel, CourseModel
 
-console = Project()
 
-class TestLogin(unittest.TestCase):
+class TestLogin(TestCase):
+    def setUp(self):
+        logout(["logout"])
+        AccountModel.objects.create(username="user123", password="pass321", name="guy", address="streetplace",
+                                    email="email@yahoo.com", phonenumber="1235678", accountFlag=1)
+
     def test_login1(self):  # No username and password entered, no user logged in. Should return error
-        self.assertEqual(console.command("login"), "Error")
+        self.assertEqual(login(["login"]), 'Error')
 
     def test_login2(self):  # only username, no user logged in. Should return error
-        self.assertEqual(console.command("login username"), "Error")
+        self.assertEqual(login(["login", "user123"]), "Error")
 
     def test_login3(self):  # only password, no user logged in. Should return error
-        self.assertEqual(console.command("login password"), "Error")
+        self.assertEqual(login(["login", "pass321"]), "Error")
+
+    def test_wrong_pass(self):
+        self.assertEqual(login(["login", "user123", "abcdefg"]), "Wrong Password")
 
     def test_login4(self):  # both, no user logged in. Should pass(Will fail until memory is complete)
-        self.assertEqual(console.command("login username password"), "Login Success")
+        self.assertEqual(login(["login", "user123", "pass321"]), "Login Success")
 
     def test_login5(self):  # No username and password entered, user logged in. Should return error
-        main.set_user(None)  # Just setting it to something for testing
-        self.assertEqual(console.command("login"), "Error")
+        self.assertEqual(login(["login"]), "Error")
 
     def test_login6(self):  # only username, user logged in. Should return error
-        self.assertEqual(console.command("login username"), "Error")
+        self.assertEqual(login(["login", "user123"]), "Error")
 
     def test_login7(self):  # only password, user logged in. Should return error
-        self.assertEqual(console.command("login password"), "Error")
+        self.assertEqual(login(["login", "password"]), "Error")
 
     def test_login8(self):  # both, user logged in. Should return error
-        main.set_user(1)  # Just setting it to something for testing
-        self.assertEqual(console.command("login username password"), "Another User is logged in")
+        self.assertEqual(login(["login", "user123", "pass321"]), "Login Success")
+        self.assertEqual(login(["login", "user123", "pass321"]), "Another User is logged in")
 
     def test_login9(self):
-        self.assertEqual(console.command("login too any arguements"), "Error")
+        self.assertEqual(login(["login", "too", "many", "arguments"]), "Error")
 
     def test_logoff1(self):  # User logged in
-        main.set_user(1)  # Just setting it to something for testing
-        self.assertEqual(console.command("logout"), "Logout Success")
+        self.assertEqual(login(["login", "user123", "pass321"]), "Login Success")
+        self.assertEqual(logout(["logout"]), "Logout Success")
 
     def test_logoff2(self):  # No one logged in
-        self.assertEqual(console.command("logout"), "Error")
+        self.assertEqual(logout(["logout"]), "Error")
 
-    def test_logoff3(self):  # Someone passes extra arguements
-        self.assertEqual(console.command("logout a b c"), "Error")
+    def test_logoff3(self):  # Someone passes extra arguments
+        self.assertEqual(logout(["logout", "a", "b", "c"]), "Error")
 
     def test_loginLogoff(self):  # (Will fail until memory is complete)
-        main.set_user(None)  # Just setting it to something for testing
-        self.assertEqual(console.command("login username password"), "Login Success")
-        self.assertEqual(console.command("logout"), "Logout Success")
+        self.assertEqual(login(["login", "user123", "pass321"]), "Login Success")
+        self.assertEqual(logout(["logout"]), "Logout Success")
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+
+#if __name__ == '__main__':
+#    unittest.main()
