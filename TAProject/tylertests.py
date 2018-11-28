@@ -8,7 +8,7 @@ from TAProject.models import AccountModel, LabModel, CourseModel
 class AccountTests(TestCase):
     def setUp(self):
         AccountModel.objects.create(username="sup123", password="pass321", name="supervisor", address="streetplace100",
-                                    email="email@yahoo.com", phonenumber="1235678", accountFlag=1)
+                                    email="email@yahoo.com", phonenumber="1235678", accountFlag=0)
         AccountModel.objects.create(username="ad123", password="pass321", name="admin", address="streetplace1",
                                     email="email@yahoo.com", phonenumber="1235678", accountFlag=1)
         AccountModel.objects.create(username="in123", password="pass321", name="instructor", address="streetplace2",
