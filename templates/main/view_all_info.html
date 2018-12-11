@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "main/header.html" %}
-<h1 style="text-align: center; margin-top: 2em;">TA Project Sprint 2</h1>
-<div style="text-align: center; margin-top:2em;">
-<a href="supervisor_home_page.html">Supervisor Page</a>
-<a href="admin_home_page.html">Admin</a>
-    <a href="instructor_home_page.html">Instructor</a>
-    <a href="ta_home_page.html">TA</a>
+<h1 style="text-align: center; margin-top: 2em;">View</h1>
+    <div>
   <form method="post" action="/">
   {% csrf_token %}
   <label for="command_input" style="margin-right: 1em;">Command:</label><input id="command_input" type="text" name="command"/><input type="submit" style="margin-left: 1em;"/>

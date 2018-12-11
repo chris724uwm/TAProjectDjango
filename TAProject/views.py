@@ -268,3 +268,16 @@ class Home(View):
   def post(self,request):
     out = doStuff(request.POST["command"],commandList)
     return render(request,"main/index.html", {"out":out})
+
+class Supervisor(View):
+    def get(self,request):
+        return render(request, "main/supervisor_home_page.html")
+class Admin(View):
+    def get(self,request):
+        return render(request, "main/admin_home_page.html")
+class Instructor(View):
+    def get(self,request):
+        return render(request, "main/instructor_home_page.html")
+class TA(View):
+    def get(self,request):
+        return render(request, "main/ta_home_page.html")

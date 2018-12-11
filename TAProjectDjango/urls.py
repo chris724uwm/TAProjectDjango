@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 import TAProject
 from TAProject.views import Home
+from TAProject.views import Supervisor
+from TAProject.views import Admin
+from TAProject.views import Instructor
+from TAProject.views import TA
 #from TAProject import views
 from django.conf.urls import url
 
@@ -24,4 +28,8 @@ from django.conf.urls import url
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('', Home.as_view()),
+    path('supervisor_home_page.html', Supervisor.as_view()),
+    path('admin_home_page.html', Admin.as_view()),
+    path('instructor_home_page.html', Instructor.as_view()),
+    path('ta_home_page.html', TA.as_view()),
 ]
