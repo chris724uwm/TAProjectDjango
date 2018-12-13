@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.views import View
 from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
+from django.views.generic.edit import CreateView
+from TAProject.forms import CreateAccountForm,DeleteAccountForm
+
 
 #variable for current account
 #when starting makes a default supervisor account
@@ -281,3 +284,53 @@ class Instructor(View):
 class TA(View):
     def get(self,request):
         return render(request, "main/ta_home_page.html")
+
+class CreateAccount(View):
+
+#    def get(self,request):
+#       return render(request, "main/create_account.html")
+
+    def get(self, request):
+        #creates new instance of CreateAccountForm
+        form = CreateAccountForm()
+        # gives this form to the webpage
+        return render(request, "main/create_account.html", {'form': form, 'accountFlag' :account.accountFlag})
+
+    def post(self,request):
+        form = CreateAccountForm(request.POST)
+
+        #checks if form is valid then saves all the entered data
+        if form.is_valid():
+            username= form.cleaned_data['username']
+            password= form.cleaned_data['password']
+            name = form.cleaned_data['name']
+            address = form.cleaned_data['address']
+            email = form.cleaned_data['email']
+            phonenumber = form.cleaned_data['phonenumber']
+            accountFlag = form.cleaned_data['accountFlag']
+
+        #gets response from create_account
+        submitMessage = account.create_account([username,password,name,address, email, phonenumber, accountFlag])
+        #creats list to send back to page
+        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/create_account.html", args)
+
+class DeleteAccount(View):
+
+    def get(self,request):
+        #creates new form
+        form = DeleteAccountForm()
+        #returns form and accountFlag to page
+        return render(request, "main/delete_account.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = DeleteAccountForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+
+        #send info to delete_account and saves response
+        submitMessage = account.delete_account([username])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/delete_account.html", args)

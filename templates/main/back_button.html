@@ -1,0 +1,17 @@
+{% block content %}
+    {% if accountFlag is 0 %}
+        <a href="/supervisor_home_page.html">Back to Supervisor Page</a>
+    {% endif %}
+
+    {% if accountFlag is 1 %}
+        <a href="/admin_home_page.html">Back to Admin Page</a>
+    {% endif %}
+
+    {% if accountFlag is 2 %}
+        <a href="/instructor_home_page.html">Back to Instructor Page</a>
+    {% endif %}
+
+    {% if accountFlag is 3 %}
+        <a href="/ta_home_page.html">Back to TA Page</a>
+    {% endif %}
+{% endblock %}

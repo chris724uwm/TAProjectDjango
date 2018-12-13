@@ -1,0 +1,18 @@
+{%  extends 'base.html' %}
+{% block content %}
+{% include "main/header.html" %}
+
+{% include "main/back_button.html" %}
+
+
+    <div class="middle_container">
+    <h1>Create Account</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Account</button>
+        </form>
+        <p>{{ submitMessage }}</p>
+    </div>
+{% include "main/footer.html" %}
+{% endblock content %}
