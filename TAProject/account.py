@@ -30,8 +30,8 @@ class Account:
         newCourse.save()
         return "Class Created"
     def createLab(self, stringList):
-
-        newLab = LabModel(name = stringList[1])
+        course = CourseModel.objects.get(id = stringList[2])
+        newLab = LabModel(id = stringList[1], course = course)
         newLab.save()
         return "Lab Created"
 

@@ -186,7 +186,7 @@ def assignTALab(args):
         return ""
 
 def assignTACourse(args):
-    if args[0] == "assigntaclass": #make sure this command is being called
+    if args[0] == "assignTACourse": #make sure this command is being called
         if account is None:  #make sure an account is logged in
             return "Nobody Logged in"
         if len(args)==3:  #make sure right number of arguments
