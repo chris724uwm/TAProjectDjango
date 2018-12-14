@@ -368,7 +368,9 @@ class CreateAccount(View):
         #creates new instance of CreateAccountForm
         form = CreateAccountForm()
         # gives this form to the webpage
-        return render(request, "main/create_account.html", {'form': form, 'accountFlag' :account.accountFlag})
+        user = request.session['user']
+        flag = request.session['flag']
+        return render(request, "main/create_account.html", {'form': form, 'accountFlag' :flag, 'flag':flag ,'user' :user,'username':user})
 
     def post(self,request):
         form = CreateAccountForm(request.POST)
@@ -383,10 +385,15 @@ class CreateAccount(View):
             phonenumber = form.cleaned_data['phonenumber']
             accountFlag = form.cleaned_data['accountFlag']
 
-        #gets response from create_account
-        submitMessage = account.create_account([username,password,name,address, email, phonenumber, accountFlag])
+        #get current user, gets response from create_account
+        currentUser = AccountModel.objects.get(username=request.session['user'])
+        currentUser = Account(currentUser.username, currentUser.password, currentUser.name, currentUser.address,
+                              currentUser.email, currentUser.phonenumber, currentUser.accountFlag)
+        submitMessage = currentUser.create_account([username,password,name,address, email, phonenumber, accountFlag])
         #creats list to send back to page
-        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': account.accountFlag}
+        flag = request.session['flag']
+        user = request.session['user']
+        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': flag, 'flag': flag, 'user': user, 'username': user}
         return render(request, "main/create_account.html", args)
 
 class DeleteAccount(View):
@@ -395,7 +402,10 @@ class DeleteAccount(View):
         #creates new form
         form = DeleteAccountForm()
         #returns form and accountFlag to page
-        return render(request, "main/delete_account.html", {'form':form, 'accountFlag':account.accountFlag})
+        user = request.session['user']
+        flag = request.session['flag']
+        return render(request, "main/create_account.html",
+                      {'form': form, 'accountFlag': flag, 'flag': flag, 'user': user, 'username': user})
 
     def post(self,request):
         form = DeleteAccountForm(request.POST)
@@ -403,11 +413,16 @@ class DeleteAccount(View):
         if form.is_valid():
             username = form.cleaned_data['username']
 
-        #send info to delete_account and saves response
-        submitMessage = account.delete_account([username])
+        #gets current user and send info to delete_account and saves response
+        currentUser = AccountModel.objects.get(username=request.session['user'])
+        currentUser = Account(currentUser.username, currentUser.password ,currentUser.name ,currentUser.address ,currentUser.email ,currentUser.phonenumber ,currentUser.accountFlag)
+        submitMessage = currentUser.delete_account([username])
         #returns form and submitmessage
-        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        flag = request.session['flag']
+        user = request.session['user']
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': flag, 'flag': flag, 'user': user, 'username': user}
         return render(request, "main/delete_account.html", args)
+
 class CreateCourse(View):
 
     def get(self, request):
