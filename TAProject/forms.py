@@ -23,3 +23,6 @@ class AssignTACourseForm(forms.Form):
     Username = forms.CharField(max_length=20)
 class viewTAAssignmentForm(forms.Form):
     Username = forms.CharField(max_length=20)
+class AssignInstructorCourseForm(forms.Form):
+    Username = forms.CharField(max_length=20)
+    id = forms.IntegerField()

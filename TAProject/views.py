@@ -3,7 +3,7 @@ from django.views import View
 from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
 from django.views.generic.edit import CreateView
-from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm, AssignTACourseForm, viewTAAssignmentForm
+from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm, AssignTACourseForm, viewTAAssignmentForm, AssignInstructorCourseForm
 
 
 #variable for current account
@@ -416,3 +416,23 @@ class viewTAAssignment(View):
         #returns form and submitmessage
         args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
         return render(request, "main/view_ta_assignments.html", args)
+class AssignInstructorCourse(View):
+
+    def get(self,request):
+        #creates new form
+        form = AssignInstructorCourseForm()
+        #returns form and accountFlag to page
+        return render(request, "main/assign_instructor_course.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = AssignInstructorCourseForm(request.POST)
+
+        if form.is_valid():
+            Username = form.cleaned_data['Username']
+            id = form.cleaned_data['id']
+
+        #send info to delete_account and saves response
+        submitMessage = account.assign_instructor_class([Username, id])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/assign_instructor_course.html", args)
