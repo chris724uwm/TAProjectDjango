@@ -3,7 +3,7 @@ from django.views import View
 from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
 from django.views.generic.edit import CreateView
-from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm
+from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm, AssignTACourseForm, viewTAAssignmentForm
 
 
 #variable for current account
@@ -142,10 +142,14 @@ def createLab(args):
         return ""
 def printAllLab(args):
     if args[0] == "printAllLab":
-        LabModel.objects.all().values()
+        return LabModel.objects.all().values()
     else:
         return ""
 
+def viewMyLab(args):
+
+    t = AccountModel.objects.get(username = args[0])
+    return LabModel.objects.filter(ta = t)
 
 def deleteCourse(args):
     if account is None:  # make sure an account is logged in
@@ -175,7 +179,7 @@ def assignInstructorClass(args):
         return ""
 
 def assignTALab(args):
-    if args[0] == "assigntalab": #make sure this command is being called
+    if args[0] == "assignTALab": #make sure this command is being called
         if account is None:  #make sure an account is logged in
             return "Nobody Logged in"
         if len(args)==3:  #make sure right number of arguments
@@ -373,3 +377,42 @@ class DeleteCourse(View):
         #returns form and submitmessage
         args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
         return render(request, "main/delete_course.html", args)
+class AssignTACourse(View):
+
+    def get(self,request):
+        #creates new form
+        form = AssignTACourseForm()
+        #returns form and accountFlag to page
+        return render(request, "main/assign_ta_course.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = AssignTACourseForm(request.POST)
+
+        if form.is_valid():
+            courseNum = form.cleaned_data['Course']
+            taUserName = form.cleaned_data['Username']
+
+        #send info to delete_account and saves response
+        submitMessage = account.assign_TA_class([courseNum,taUserName])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/assign_ta_course.html", args)
+class viewTAAssignment(View):
+
+    def get(self,request):
+        #creates new form
+        form = viewTAAssignmentForm()
+        #returns form and accountFlag to page
+        return render(request, "main/view_ta_assignments.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = viewTAAssignmentForm(request.POST)
+
+        if form.is_valid():
+            Username = form.cleaned_data['Username']
+
+        #send info to delete_account and saves response
+        submitMessage = viewMyLab([Username])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/view_ta_assignments.html", args)

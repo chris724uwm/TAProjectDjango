@@ -17,5 +17,5 @@ class CourseModel(models.Model):
 
 class LabModel(models.Model):
     name = models.CharField(max_length=20)
-    ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, blank= True)
-    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, null=True, blank = True)
+    ta = models.ForeignKey(AccountModel, on_delete=models.CASCADE, null=True, related_name = 'TA')
+    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, null=True, related_name='course')

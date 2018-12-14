@@ -18,4 +18,8 @@ class CreateCourseForm(forms.Form):
     name = forms.CharField(max_length=20)
 class DeleteCourseForm(forms.Form):
     id = forms.IntegerField()
-
+class AssignTACourseForm(forms.Form):
+    Course = forms.IntegerField()
+    Username = forms.CharField(max_length=20)
+class viewTAAssignmentForm(forms.Form):
+    Username = forms.CharField(max_length=20)
