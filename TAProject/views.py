@@ -272,6 +272,7 @@ def doStuff(s, commandList):
 class Home(View):
 
   def get(self,request):
+    #account.create_account(['superUser','superPassword', 'superName','superAddress', 'superEmail', '1234567890', 0])
     form = loginForm()
     return render(request, "main/index.html", {'form': form})
 
