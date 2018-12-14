@@ -3,7 +3,7 @@ from django.views import View
 from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
 from django.views.generic.edit import CreateView
-from TAProject.forms import CreateAccountForm,DeleteAccountForm
+from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm
 
 
 #variable for current account
@@ -334,3 +334,42 @@ class DeleteAccount(View):
         #returns form and submitmessage
         args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
         return render(request, "main/delete_account.html", args)
+class CreateCourse(View):
+
+    def get(self, request):
+        #creates new instance of CreateAccountForm
+        form = CreateCourseForm()
+        # gives this form to the webpage
+        return render(request, "main/create_course.html", {'form': form, 'accountFlag' :account.accountFlag})
+
+    def post(self,request):
+        form = CreateCourseForm(request.POST)
+        #checks if form is valid then saves all the entered data
+        if form.is_valid():
+            number = form.cleaned_data['number']
+            name = form.cleaned_data['name']
+
+        #gets response from create_account
+        submitMessage = account.createClass([number, name])
+        #creats list to send back to page
+        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/create_course.html", args)
+class DeleteCourse(View):
+
+    def get(self,request):
+        #creates new form
+        form = DeleteCourseForm()
+        #returns form and accountFlag to page
+        return render(request, "main/delete_course.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = DeleteCourseForm(request.POST)
+
+        if form.is_valid():
+            id = form.cleaned_data['id']
+
+        #send info to delete_account and saves response
+        submitMessage = account.deleteClass([id])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/delete_course.html", args)

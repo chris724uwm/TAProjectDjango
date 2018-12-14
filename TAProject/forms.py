@@ -13,4 +13,9 @@ class CreateAccountForm(forms.Form):
 
 class DeleteAccountForm(forms.Form):
     username = forms.CharField(max_length=20)
+class CreateCourseForm(forms.Form):
+    number = forms.IntegerField()
+    name = forms.CharField(max_length=20)
+class DeleteCourseForm(forms.Form):
+    id = forms.IntegerField()
 

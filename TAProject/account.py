@@ -26,7 +26,7 @@ class Account:
    
     def createClass(self, stringList):
 
-        newCourse = CourseModel(number=stringList[1], name=stringList[2])
+        newCourse = CourseModel(number=stringList[0], name=stringList[1])
         newCourse.save()
         return "Class Created"
     def createLab(self, stringList):
@@ -36,7 +36,7 @@ class Account:
         return "Lab Created"
 
     def deleteClass(self, stringList):
-        CourseModel.objects.filter(number=int(stringList[1])).delete()
+        CourseModel.objects.filter(number=int(stringList[0])).delete()
         return "Course Deleted"
 
     def assign_instructor_class(self, stringlist):

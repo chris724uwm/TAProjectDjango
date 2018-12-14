@@ -21,7 +21,7 @@ from TAProject.views import Supervisor
 from TAProject.views import Admin
 from TAProject.views import Instructor
 from TAProject.views import TA
-from TAProject.views import CreateAccount, DeleteAccount
+from TAProject.views import CreateAccount, DeleteAccount, CreateCourse, DeleteCourse
 from django.conf.urls import url
 
 
@@ -34,5 +34,7 @@ urlpatterns = [
     path('ta_home_page.html', TA.as_view()),
     path('create_account.html', CreateAccount.as_view()),
     path('delete_account.html', DeleteAccount.as_view()),
+    path('create_course.html', CreateCourse.as_view()),
+    path('delete_course.html', DeleteCourse.as_view()),
 
 ]
