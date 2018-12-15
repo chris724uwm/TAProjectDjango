@@ -11,6 +11,8 @@ class testDjangoAccount(TestCase):
         self.admin = Account('admin', 'admin_password', 'admin_name', 'admin_address', 'admin_email', "262", 0)
         self.instructor = Account('instructor', 'instructor_password', 'instructor_name', 'instructor_address', 'instructor_email', "920", 0)
         self.ta = Account('ta', 'ta_password', 'ta_name', 'ta_address', 'ta_email', "715", 0)
+        # Account.create_account(self.superAccount, ['instructor', 'instructor_password', 'instructor_name', 'instructor_address', 'instructor_email', "920", 0])
+        # Account.create_account(self.superAccount, ['ta', 'ta_password', 'ta_name', 'ta_address', 'ta_email', "715", 0])
 
     def test_createAccount_exists(self):
         Account.create_account(self.superAccount, ['user', 'pass', 'name', 'address', 'email', '1234567890', 0])
