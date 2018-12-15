@@ -345,9 +345,20 @@ class Account:
         if self.accountFlag == 0 or self.accountFlag == 1:
             all_info = ""
             for c in CourseModel.objects.all():
-                all_info += "Course: " + c.name + " " + c.number + " Instructor: " + c.instructor + " TA: " + c.ta
+                all_info += "Course: " + c.name + " " + c.number
+
                 all_info += '\n'
-            return all_info + "qwerty"
+            return all_info
+        else:
+            return "You don't have permissions to view all information."
+
+    def view_all_tas(self):
+        if self.accountFlag == 0 or self.accountFlag == 1:
+            all_info = ""
+            for a in AccountModel.objects.filter(accountFlag=3):
+                all_info += "Username: " + a.username + ", name: " + a.name
+                all_info += '\n'
+            return all_info
         else:
             return "You don't have permissions to view all information."
 
