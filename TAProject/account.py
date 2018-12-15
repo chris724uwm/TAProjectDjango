@@ -115,7 +115,7 @@ class Account:
             return "Account Creation Error: Wrong amount of information passed"
 
         # must have the right account permissions
-        if self.accountFlag != 0:
+        if self.accountFlag != 0 and self.accountFlag != 1:
             return "Account Creation Error: You don't have permission"
 
         # last variable in stringList should be a number between 0-3
@@ -155,7 +155,7 @@ class Account:
             return "Account Deletion Error: Wrong amount of information passed"
 
         # must have the right account permissions
-        if self.accountFlag != 0:
+        if self.accountFlag != 0 and self.accountFlag != 1:
             return "Account Deletion Error: You don't have permission"
 
         # username must be a str

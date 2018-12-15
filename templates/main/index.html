@@ -1,17 +1,12 @@
-{% extends "base.html" %}
+{%  extends 'base.html' %}
 {% block content %}
-{% include "main/header.html" %}
-<h1 style="text-align: center; margin-top: 2em;">TA Project Sprint 2</h1>
-<div style="text-align: center; margin-top:2em;">
-<a href="supervisor_home_page.html">Supervisor Page</a>
-<a href="admin_home_page.html">Admin</a>
-    <a href="instructor_home_page.html">Instructor</a>
-    <a href="ta_home_page.html">TA</a>
-  <form method="post" action="/">
-  {% csrf_token %}
-  <label for="command_input" style="margin-right: 1em;">Command:</label><input id="command_input" type="text" name="command"/><input type="submit" style="margin-left: 1em;"/>
-  </form>
-  <div id="out" style="margin: 2em 10em;">{{out|linebreaks}}</div>
-</div>
+    <div class="middle_container">
+    <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+    </div>
 {% include "main/footer.html" %}
 {% endblock content %}

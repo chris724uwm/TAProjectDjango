@@ -26,3 +26,8 @@ class viewTAAssignmentForm(forms.Form):
 class AssignInstructorCourseForm(forms.Form):
     Username = forms.CharField(max_length=20)
     id = forms.IntegerField()
+
+
+class loginForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(max_length=20)
