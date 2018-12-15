@@ -13,7 +13,7 @@ account = Account('superUser','superPassword', 'superName','superAddress', 'supe
 superuser = AccountModel(username=account.username,
                          password=account.password,name=account.name,address=account.address,
                          email=account.email,phonenumber=account.phonenumber,accountFlag=account.accountFlag)
-#superuser.save()
+superuser.save()
 
 def getuser():  # Get current user
     return account
@@ -245,11 +245,43 @@ def viewMyTA(args):
     else:
         return ""
 
-def viewAll(args):
-    if args[0] == "viewAll":
+def viewAllAccounts(args):
+    if args[0] == "viewAllAccounts":
         if account is None:  # make sure an account is logged in
             return "Nobody Logged in"
-        return account.view_all()
+        return account.view_all_accounts()
+    else:
+        return ""
+
+def viewAllCourses(args):
+    if args[0] == "viewAllCourses":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
+        return account.view_all_courses()
+    else:
+        return ""
+
+def viewAllLabs(args):
+    if args[0] == "viewAllLabs":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
+        return account.view_all_labs()
+    else:
+        return ""
+
+def viewAllInstructors(args):
+    if args[0] == "viewAllInstructors":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
+        return account.view_all_instructors()
+    else:
+        return ""
+
+def viewAllTAs(args):
+    if args[0] == "viewAllTAs":
+        if account is None:  # make sure an account is logged in
+            return "Nobody Logged in"
+        return account.view_all_tas()
     else:
         return ""
 
@@ -258,7 +290,7 @@ commandList = [createAccount, deleteAccount,
                editAddress, editEmail,
                editName, editPassword,
                editPhonenumber, viewAccount, assignInstructorClass, assignTALab, assignTACourse,login, logout,viewMyTA,
-               viewAll, createLab, printAllLab,createCourse, deleteCourse,
+               viewAllAccounts, viewAllCourses, viewAllLabs, viewAllInstructors, viewAllTAs, createLab, printAllLab,createCourse, deleteCourse,
                assignInstructorClass, assignTALab, assignTACourse,printAllCourses]
 
 def doStuff(s, commandList):
@@ -366,6 +398,54 @@ class Instructor(View):
 class TA(View):
     def get(self,request):
         return render(request, "main/ta_home_page.html", {"username": request.session["user"]})
+
+class SupervisorChooseEditAccountType(View):
+    def get(self, request):
+        flag = request.session["flag"]
+        return render(request, "main/choose_edit_account_type.html", {"accountFlag":flag})
+
+class EditOwnAccount(View):
+    def get(self, request):
+        flag = request.session["flag"]
+        return render(request, "main/edit_own_account.html", {"message":False,"accountFlag": flag})
+    def post(self, request):
+        flag = request.session["flag"]
+        field = request.POST["selected_field_to_update"]
+        updated_value = request.POST["updated_field_value"]
+
+        command = "edit" + field
+        user_name = request.session["user"]
+
+        out = doStuff(command + " " + user_name + " " + updated_value, commandList)
+
+        return render(request, "main/edit_own_account.html", {"message":out,"accountFlag": flag})
+
+class EditOtherAccount(View):
+    def get(self, request):
+        flag = request.session["flag"]
+        return render(request, "main/edit_other_account.html", {"message":False,"accountFlag": flag})
+    def post(self, request):
+        flag = request.session["flag"]
+        field = request.POST["selected_field_to_update"]
+        updated_value = request.POST["updated_field_value"]
+
+        command = "edit" + field
+        user_name = request.POST["username"]
+
+        out = doStuff(command + " " + user_name + " " + updated_value, commandList)
+
+        return render(request, "main/edit_other_account.html", {"message":out,"accountFlag": flag})
+
+class ViewAllInfo(View):
+    def get(self, request):
+        flag = request.session["flag"]
+        return render(request, "main/view_all_info.html", {"accountFlag": flag})
+    def post(self, request):
+        flag = request.session["flag"]
+        command = "viewAll" + request.POST["selected_field_to_update"]
+        out = doStuff(command, commandList)
+        return render(request, "main/view_all_info.html", {"accountFlag": flag,"out":out})
+
 
 class CreateAccount(View):
 

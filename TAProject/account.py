@@ -182,8 +182,11 @@ class Account:
             if self.password == string_list[1]:
                 return "Password entered is already " + string_list[0] + "'s current password."
             else:
-                self.password = string_list[1]
-                self.save(update_fields=['password'])
+                user = AccountModel.objects.get(username=string_list[0])
+                user.password = string_list[1]
+                user.save(update_fields=['password'])
+                # self.password = string_list[1]
+                # self.save(update_fields=['password'])
                 return "Password updated."
         elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's password
             if AccountModel.objects.filter(username=string_list[0]).count() > 0:
@@ -207,8 +210,11 @@ class Account:
             if self.name == string_list[1]:
                 return "Name entered is already " + string_list[0] + "'s current name."
             else:
-                self.name = string_list[1]
-                self.save(update_fields=['name'])
+                user = AccountModel.objects.get(username=string_list[0])
+                user.name = string_list[1]
+                user.save(update_fields=['name'])
+                # self.name = string_list[1]
+                # self.save(update_fields=['name'])
                 return "Name updated."
         elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's name
             if AccountModel.objects.filter(username=string_list[0]).count() > 0:
@@ -232,8 +238,11 @@ class Account:
             if self.address == string_list[1]:
                 return "Address entered is already " + string_list[0] + "'s current address."
             else:
-                self.address = string_list[1]
-                self.save(update_fields=['address'])
+                user = AccountModel.objects.get(username=string_list[0])
+                user.address = string_list[1]
+                user.save(update_fields=['address'])
+                # self.address = string_list[1]
+                # self.save(update_fields=['address'])
                 return "Address updated."
         elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's address
             if AccountModel.objects.filter(username=string_list[0]).count() > 0:
@@ -257,8 +266,11 @@ class Account:
             if self.email == string_list[1]:
                 return "Email entered is already " + string_list[0] + "'s current email."
             else:
-                self.email = string_list[1]
-                self.save(update_fields=['email'])
+                user = AccountModel.objects.get(username=string_list[0])
+                user.email = string_list[1]
+                user.save(update_fields=['email'])
+                # self.email = string_list[1]
+                # self.save(update_fields=['email'])
                 return "Email updated."
         elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's email
             if AccountModel.objects.filter(username=string_list[0]).count() > 0:
@@ -282,8 +294,11 @@ class Account:
             if self.phonenumber == string_list[1]:
                 return "Phonenumber entered is already " + string_list[0] + "'s current phonenumber."
             else:
-                self.phonenumber = string_list[1]
-                self.save(update_fields=['phonenumber'])
+                user = AccountModel.objects.get(username=string_list[0])
+                user.phonenumber = string_list[1]
+                user.save(update_fields=['phonenumber'])
+                # self.phonenumber = string_list[1]
+                # self.save(update_fields=['phonenumber'])
                 return "Phonenumber updated."
         elif self.accountFlag == 0 or self.accountFlag == 1: #user is admin/supervisor and updating another user's phonenumber
             if AccountModel.objects.filter(username=string_list[0]).count() > 0:
@@ -316,13 +331,23 @@ class Account:
         else:
             return "you are not allowed to view TAs' information"
 
-    def view_all(self):
+    def view_all_accounts(self):
         if self.accountFlag == 0 or self.accountFlag == 1:
             all_info = ""
             for a in AccountModel.objects.all():
                 all_info += "Username: " + a.username + ", password: " + a.password + ", name: " + a.name + ", address: " + a.address + ", email: " + a.email + ", phonenumber: " + a.phonenumber + ", account flag: " + str(a.accountFlag)
                 all_info += '\n'
             return all_info
+        else:
+            return "You don't have permissions to view all information."
+
+    def view_all_courses(self):
+        if self.accountFlag == 0 or self.accountFlag == 1:
+            all_info = ""
+            for c in CourseModel.objects.all():
+                all_info += "Course: " + c.name + " " + c.number + " Instructor: " + c.instructor + " TA: " + c.ta
+                all_info += '\n'
+            return all_info + "qwerty"
         else:
             return "You don't have permissions to view all information."
 
