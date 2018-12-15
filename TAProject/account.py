@@ -25,7 +25,8 @@ class Account:
 
    
     def createClass(self, stringList):
-
+        if CourseModel.objects.filter(number=stringList[0]).exists():
+            return "Class Exists"
         newCourse = CourseModel(number=stringList[0], name=stringList[1])
         newCourse.save()
         return "Class Created"
@@ -85,7 +86,7 @@ class Account:
         classlist[id].setInstructor("No Instructor")
 
     def assign_TA_lab(self, stringlist):
-        if self.accountFlag>3:  #Instructor above can only use this command
+        if self.accountFlag!=0 or self.accountFlag!=2:  #Instructor and super can only use this command
             return "No Access to command"
         if LabModel.objects.filter(id=int(stringlist[1])).exists():  #Make sure lab exists
             l = LabModel.objects.get(id=int(stringlist[1]))  #Get lab
@@ -95,7 +96,7 @@ class Account:
                     return "You can only assign a TA to lab"
                 l.ta = a
                 l.save()
-                return "TA Added to course" #Ta is added and saved
+                return "TA Added to Lab" #Ta is added and saved
             else:
                 return "TA does not exist"
 
