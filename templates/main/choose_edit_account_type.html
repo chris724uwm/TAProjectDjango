@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "main/header.html" %}
+{% include "main/back_button.html" %}
+    <div class="middle_container">
+        <h1>Choose Edit Account Type</h1>
+        <div class="grid_item"><a href="edit_own_account.html">Edit own account</a></div>
+        <div class="grid_item"><a href="edit_other_account.html">Edit other user</a></div>
+    </div>
+{% include "main/footer.html" %}
+{% endblock content %}
