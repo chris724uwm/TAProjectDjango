@@ -3,7 +3,7 @@ from django.views import View
 from TAProject.models import AccountModel, CourseModel, LabModel
 from TAProject.account import Account
 from django.views.generic.edit import CreateView
-from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm, AssignTACourseForm, viewTAAssignmentForm, AssignInstructorCourseForm, loginForm
+from TAProject.forms import CreateAccountForm,DeleteAccountForm,CreateCourseForm, DeleteCourseForm, AssignTACourseForm, viewTAAssignmentForm, ViewCourseForm, AssignInstructorCourseForm, loginForm, CreateLabForm
 
 
 #variable for current account
@@ -13,7 +13,7 @@ account = Account('superUser','superPassword', 'superName','superAddress', 'supe
 superuser = AccountModel(username=account.username,
                          password=account.password,name=account.name,address=account.address,
                          email=account.email,phonenumber=account.phonenumber,accountFlag=account.accountFlag)
-#superuser.save()
+superuser.save()
 
 def getuser():  # Get current user
     return account
@@ -133,10 +133,14 @@ def createCourse(args):
         return account.createClass(args)
     else:
         return ""
+def printMyClasses(args):
+    inst = AccountModel.objects.get(username=args[0])
+    return CourseModel.objects.filter(instructor=inst).values()
 def createLab(args):
     if account is None:  # make sure an account is logged in
         return "Nobody Logged in"
     if args[0] == "createLab":
+        account.assign_TA_class(args)
         return account.createLab(args)
     else:
         return ""
@@ -149,8 +153,8 @@ def printAllLab(args):
 def viewMyLab(args):
 
     t = AccountModel.objects.get(username = args[0])
-    return LabModel.objects.filter(ta = t)
-
+    return LabModel.objects.filter(ta= t).values()
+    ##CourseModel.objects.filter(ta=t).values
 def deleteCourse(args):
     if account is None:  # make sure an account is logged in
         return "Nobody Logged in"
@@ -522,3 +526,44 @@ class AssignInstructorCourse(View):
         #returns form and submitmessage
         args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
         return render(request, "main/assign_instructor_course.html", args)
+class CreateLab(View):
+
+    def get(self,request):
+        #creates new form
+        form = CreateLabForm()
+        #returns form and accountFlag to page
+        return render(request, "main/create_lab.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = CreateLabForm(request.POST)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            ta = form.cleaned_data['ta']
+            course = form.cleaned_data['course']
+
+        #send info to delete_account and saves response
+        submitMessage = account.createLab([name,ta,course])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/create_lab.html", args)
+class ViewCourses(View):
+
+    def get(self,request):
+        #creates new form
+        form = ViewCourseForm()
+        #returns form and accountFlag to page
+        return render(request, "main/view_course_assignments.html", {'form':form, 'accountFlag':account.accountFlag})
+
+    def post(self,request):
+        form = ViewCourseForm(request.POST)
+
+        if form.is_valid():
+            InstructorName = form.cleaned_data['InstructorName']
+
+
+        #send info to delete_account and saves response
+        submitMessage = printMyClasses([InstructorName])
+        #returns form and submitmessage
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        return render(request, "main/view_course_assignments.html", args)

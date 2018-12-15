@@ -21,7 +21,7 @@ from TAProject.views import Supervisor
 from TAProject.views import Admin
 from TAProject.views import Instructor
 from TAProject.views import TA
-from TAProject.views import CreateAccount, DeleteAccount, CreateCourse, DeleteCourse, AssignTACourse, viewTAAssignment, AssignInstructorCourse
+from TAProject.views import CreateAccount, DeleteAccount, CreateCourse, DeleteCourse, AssignTACourse, viewTAAssignment, AssignInstructorCourse, CreateLab, ViewCourses
 from django.conf.urls import url
 
 
@@ -39,5 +39,7 @@ urlpatterns = [
     path('assign_ta_course.html', AssignTACourse.as_view()),
     path('view_ta_assignments.html', viewTAAssignment.as_view()),
     path('assign_instructor_course.html', AssignInstructorCourse.as_view()),
+    path('create_lab.html', CreateLab.as_view()),
+    path('view_course_assignments.html', ViewCourses.as_view()),
 
 ]
