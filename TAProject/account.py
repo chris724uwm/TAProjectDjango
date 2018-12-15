@@ -25,13 +25,15 @@ class Account:
 
    
     def createClass(self, stringList):
-
+        if CourseModel.objects.filter(number=stringList[0]).exists():
+            return "Class Exists"
         newCourse = CourseModel(number=stringList[0], name=stringList[1])
         newCourse.save()
         return "Class Created"
     def createLab(self, stringList):
         course = CourseModel.objects.get(id = stringList[2])
-        newLab = LabModel(id = stringList[1], course = course)
+        t = AccountModel.objects.get(username= stringList[1])
+        newLab = LabModel(name = stringList[0], course = course, ta = t)
         newLab.save()
         return "Lab Created"
 
@@ -44,11 +46,11 @@ class Account:
         if self.accountFlag!=0:  #Check if supervisor is issuing command
             return "No Access to command"
         if AccountModel.objects.filter(username=stringlist[0]).exists():  #Check if account exists
-            if CourseModel.objects.filter(id=int(stringlist[1])).exists():  #Check if course exists
+            if CourseModel.objects.filter(number=int(stringlist[1])).exists():  #Check if course exists
                 a = AccountModel.objects.get(username=stringlist[0])  #get account
                 if a.accountFlag!=2:  #Make sure its instructor
                     return "Not Instructor"
-                c = CourseModel.objects.get(id=int(stringlist[1]))  #Get course
+                c = CourseModel.objects.get(number=int(stringlist[1]))  #Get course
                 if not c.instructor == None:  #Make sure course has no instructor
                     return "Course has instructor"
                 else:
@@ -63,16 +65,16 @@ class Account:
     def assign_TA_class(self, stringlist):
         if self.accountFlag!=0:  #Check if supervisor is issuing command
             return "No Access to command"
-        if AccountModel.objects.filter(username=stringlist[0]).exists():  #Check if account exists
-            if CourseModel.objects.filter(id=int(stringlist[1])).exists():  #Check if course exists
-                a = AccountModel.objects.get(username=stringlist[0])  #get account
+        if AccountModel.objects.filter(username=stringlist[1]).exists():  #Check if account exists
+            if CourseModel.objects.filter(number=int(stringlist[0])).exists():  #Check if course exists
+                a = AccountModel.objects.get(username=stringlist[1])  #get account
                 if a.accountFlag!=3:  #Make sure its TA
                     return "Not TA"
-                c = CourseModel.objects.get(id=int(stringlist[1]))  #Get course
+                c = CourseModel.objects.get(number=int(stringlist[0]))  #Get course
                 if not c.ta == None:  #Make sure course has no ta
-                    return "Course has instructor"
+                    return "Course has TA"
                 else:
-                    c.ta=a
+                    c.ta = a
                     c.save()
                     return "TA Added to Course" #Set instructor as account and saves
             else:
@@ -84,7 +86,7 @@ class Account:
         classlist[id].setInstructor("No Instructor")
 
     def assign_TA_lab(self, stringlist):
-        if self.accountFlag>3:  #Instructor above can only use this command
+        if self.accountFlag!=0 or self.accountFlag!=2:  #Instructor and super can only use this command
             return "No Access to command"
         if LabModel.objects.filter(id=int(stringlist[1])).exists():  #Make sure lab exists
             l = LabModel.objects.get(id=int(stringlist[1]))  #Get lab
@@ -94,7 +96,7 @@ class Account:
                     return "You can only assign a TA to lab"
                 l.ta = a
                 l.save()
-                return "TA Added to course" #Ta is added and saved
+                return "TA Added to Lab" #Ta is added and saved
             else:
                 return "TA does not exist"
 

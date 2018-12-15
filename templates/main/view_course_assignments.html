@@ -6,11 +6,11 @@
 
 
     <div class="middle_container">
-    <h1>View Courses</h1>
+    <h1>View Assignments</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Create Course</button>
+            <button type="submit">View Courses</button>
         </form>
         <p>{{ submitMessage }}</p>
     </div>

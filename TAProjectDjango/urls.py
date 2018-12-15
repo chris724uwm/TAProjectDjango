@@ -18,7 +18,7 @@ from django.urls import path, include
 import TAProject
 from TAProject.views import Home
 from TAProject.views import Supervisor, Admin, Instructor, TA, SupervisorChooseEditAccountType, EditOwnAccount,EditOtherAccount, ViewAllInfo
-from TAProject.views import CreateAccount, DeleteAccount, CreateCourse, DeleteCourse, AssignTACourse, viewTAAssignment, AssignInstructorCourse
+from TAProject.views import CreateAccount, DeleteAccount, CreateCourse, DeleteCourse, AssignTACourse, viewTAAssignment, AssignInstructorCourse, CreateLab, ViewCourses
 from django.conf.urls import url
 
 
@@ -40,5 +40,6 @@ urlpatterns = [
     path('edit_own_account.html', EditOwnAccount.as_view()),
     path('edit_other_account.html', EditOtherAccount.as_view()),
     path('view_all_info.html', ViewAllInfo.as_view()),
-
+    path('create_lab.html', CreateLab.as_view()),
+    path('view_course_assignments.html', ViewCourses.as_view()),
 ]
