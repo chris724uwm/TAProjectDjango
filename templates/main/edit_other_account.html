@@ -1,0 +1,30 @@
+{%  extends 'base.html' %}
+{% block content %}
+{% include "main/header.html" %}
+{% include "main/back_button.html" %}
+    <div class="middle_container">
+    <h1>Edit Account</h1>
+        {% if message %}
+            <div class="method_return_message">
+                <p>{{message}}</p>
+            </div>
+        {% endif %}
+        <form method="post" action="">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username"/>
+            <label for="selected_field_to_update">Field to edit:</label>
+            <select class="edit_account_select" name="selected_field_to_update">
+                <option>Name</option>
+                <option>Password</option>
+                <option>Address</option>
+                <option>Email</option>
+                <option>Phonenumber</option>
+            </select>
+            <label for="updated_field_value">Updated field:</label>
+            <input type="text" name="updated_field_value"/>
+            <button type="submit">Update User</button>
+        </form>
+    </div>
+{% include "main/footer.html" %}
+{% endblock content %}
