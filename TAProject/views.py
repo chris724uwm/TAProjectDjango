@@ -273,6 +273,9 @@ class Home(View):
 
   def get(self,request):
     #account.create_account(['superUser','superPassword', 'superName','superAddress', 'superEmail', '1234567890', 0])
+    request.session["user"] = None
+    request.session["flag"] = None
+
     form = loginForm()
     return render(request, "main/index.html", {'form': form})
 
@@ -306,7 +309,7 @@ pagelist = []
 
 def toSuper(arg, request):
     if arg == 0:
-        return render(request, "main/supervisor_home_page.html")
+        return render(request, "main/supervisor_home_page.html", {"username": request.session["user"]})
     else:
         return ""
 
@@ -316,7 +319,7 @@ pagelist.append(toSuper)
 
 def toAdmin(arg, request):
     if arg == 1:
-        return render(request, "main/admin_home_page.html")
+        return render(request, "main/admin_home_page.html", {"username": request.session["user"]})
     else:
         return ""
 
@@ -324,7 +327,7 @@ pagelist.append(toAdmin)
 
 def toInstructor(arg, request):
     if arg == 2:
-        return render(request, "main/instructor_home_page.html")
+        return render(request, "main/instructor_home_page.html", {"username": request.session["user"]})
     else:
         return ""
 
@@ -333,7 +336,7 @@ pagelist.append(toInstructor)
 
 def toTA(arg, request):
     if arg == 3:
-        return render(request, "main/ta_home_page.html")
+        return render(request, "main/ta_home_page.html", {"username": request.session["user"]})
     else:
         return ""
 
@@ -349,16 +352,16 @@ def sendToPage(arg, request):
 
 class Supervisor(View):
     def get(self,request):
-        return render(request, "main/supervisor_home_page.html")
+        return render(request, "main/supervisor_home_page.html", {"username": request.session["user"]})
 class Admin(View):
     def get(self,request):
-        return render(request, "main/admin_home_page.html")
+        return render(request, "main/admin_home_page.html", {"username": request.session["user"]})
 class Instructor(View):
     def get(self,request):
-        return render(request, "main/instructor_home_page.html")
+        return render(request, "main/instructor_home_page.html", {"username": request.session["user"]})
 class TA(View):
     def get(self,request):
-        return render(request, "main/ta_home_page.html")
+        return render(request, "main/ta_home_page.html", {"username": request.session["user"]})
 
 class CreateAccount(View):
 
@@ -430,7 +433,7 @@ class CreateCourse(View):
         #creates new instance of CreateAccountForm
         form = CreateCourseForm()
         # gives this form to the webpage
-        return render(request, "main/create_course.html", {'form': form, 'accountFlag' :account.accountFlag})
+        return render(request, "main/create_course.html", {'form': form, 'accountFlag' : request.session['flag'], "username": request.session["user"]})
 
     def post(self,request):
         form = CreateCourseForm(request.POST)
@@ -442,7 +445,7 @@ class CreateCourse(View):
         #gets response from create_account
         submitMessage = account.createClass([number, name])
         #creats list to send back to page
-        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': account.accountFlag}
+        args = {'form': form, 'submitMessage':submitMessage, 'accountFlag': request.session['flag'], "username": request.session["user"]}
         return render(request, "main/create_course.html", args)
 class DeleteCourse(View):
 
@@ -450,7 +453,7 @@ class DeleteCourse(View):
         #creates new form
         form = DeleteCourseForm()
         #returns form and accountFlag to page
-        return render(request, "main/delete_course.html", {'form':form, 'accountFlag':account.accountFlag})
+        return render(request, "main/delete_course.html", {'form':form, 'accountFlag': request.session['flag'], "username": request.session["user"]})
 
     def post(self,request):
         form = DeleteCourseForm(request.POST)
@@ -461,7 +464,7 @@ class DeleteCourse(View):
         #send info to delete_account and saves response
         submitMessage = account.deleteClass([id])
         #returns form and submitmessage
-        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': request.session['flag'], "username": request.session["user"]}
         return render(request, "main/delete_course.html", args)
 class AssignTACourse(View):
 
@@ -469,7 +472,7 @@ class AssignTACourse(View):
         #creates new form
         form = AssignTACourseForm()
         #returns form and accountFlag to page
-        return render(request, "main/assign_ta_course.html", {'form':form, 'accountFlag':account.accountFlag})
+        return render(request, "main/assign_ta_course.html", {'form':form, 'accountFlag': request.session['flag'], "username": request.session["user"]})
 
     def post(self,request):
         form = AssignTACourseForm(request.POST)
@@ -479,9 +482,9 @@ class AssignTACourse(View):
             taUserName = form.cleaned_data['Username']
 
         #send info to delete_account and saves response
-        submitMessage = account.assign_TA_class([courseNum,taUserName])
+        submitMessage = account.assign_TA_class([taUserName,courseNum])
         #returns form and submitmessage
-        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': request.session['flag'], "username": request.session["user"]}
         return render(request, "main/assign_ta_course.html", args)
 class viewTAAssignment(View):
 
@@ -489,7 +492,7 @@ class viewTAAssignment(View):
         #creates new form
         form = viewTAAssignmentForm()
         #returns form and accountFlag to page
-        return render(request, "main/view_ta_assignments.html", {'form':form, 'accountFlag':account.accountFlag})
+        return render(request, "main/view_ta_assignments.html", {'form':form, 'accountFlag': request.session['flag'], "username": request.session["user"]})
 
     def post(self,request):
         form = viewTAAssignmentForm(request.POST)
@@ -500,7 +503,7 @@ class viewTAAssignment(View):
         #send info to delete_account and saves response
         submitMessage = viewMyLab([Username])
         #returns form and submitmessage
-        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': request.session['flag'], "username": request.session["user"]}
         return render(request, "main/view_ta_assignments.html", args)
 class AssignInstructorCourse(View):
 
@@ -508,7 +511,7 @@ class AssignInstructorCourse(View):
         #creates new form
         form = AssignInstructorCourseForm()
         #returns form and accountFlag to page
-        return render(request, "main/assign_instructor_course.html", {'form':form, 'accountFlag':account.accountFlag})
+        return render(request, "main/assign_instructor_course.html", {'form':form, 'accountFlag': request.session['flag'], "username": request.session["user"]})
 
     def post(self,request):
         form = AssignInstructorCourseForm(request.POST)
@@ -520,5 +523,5 @@ class AssignInstructorCourse(View):
         #send info to delete_account and saves response
         submitMessage = account.assign_instructor_class([Username, id])
         #returns form and submitmessage
-        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': account.accountFlag}
+        args = {'form': form, 'submitMessage': submitMessage, 'accountFlag': request.session['flag'], "username": request.session["user"]}
         return render(request, "main/assign_instructor_course.html", args)
