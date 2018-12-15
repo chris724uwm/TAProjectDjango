@@ -13,11 +13,22 @@ class testDjangoAccount(TestCase):
         self.ta = Account('ta', 'ta_password', 'ta_name', 'ta_address', 'ta_email', "715", 0)
         # Account.create_account(self.superAccount, ['instructor', 'instructor_password', 'instructor_name', 'instructor_address', 'instructor_email', "920", 0])
         # Account.create_account(self.superAccount, ['ta', 'ta_password', 'ta_name', 'ta_address', 'ta_email', "715", 0])
+        self.superAccount.create_account(['SuperUser', 'SuperPass', 'SuperName', 'SuperAdd', 'SuperEmail', "1234567980", 0])
+
 
     def test_createAccount_exists(self):
         Account.create_account(self.superAccount, ['user', 'pass', 'name', 'address', 'email', '1234567890', 0])
         checkAccount = AccountModel.objects.get(username='user', password='pass', name='name', address='address', email='email', phonenumber='1234567890', accountFlag=0)
         self.assertIsNotNone(checkAccount)
+
+    def test_createAccount_blank(self):
+        self.assertEquals(self.superAccount.create_account([]), 'Account Creation Error: Wrong amount of information passed')
+
+    def test_createAccount_wrong_var_type(self):
+        self.assertEquals(self.superAccount.create_account([0,'pass',0,0,0,0,0]), "Error")
+
+    def test_createAccount_wrong_permissions_type(self):
+        self.assertEquals(self.superAccount.create_account(['user', 'pass', 'name', 'address', 'email', '2134235', 'not int']),'Account Creation Error: Wrong permissions passed')
 
     def test_createAccount_short_list_length(self):
         self.assertEquals(self.superAccount.create_account(['user', 'pass', 'name', 'address']), "Account Creation Error: Wrong amount of information passed")
