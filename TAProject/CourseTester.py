@@ -1,4 +1,4 @@
-from Course import Course
+from TAProject.Course import Course
 import unittest
 
 a = Course(0,"Class Name","professor","TA")

@@ -54,49 +54,49 @@ class TestAccountMethods(unittest.TestCase):
             Account.delete_account(self.superAccount, [0, 1, 2])
 
     def test_password1(self):
-        self.assertEqual(user.edit_account_password("20181225"), "it is the current password")
+        self.assertEqual(user.edit_password("20181225"), "it is the current password")
 
     def test_password2(self):
-        self.assertEqual(user.edit_account_password("20181231"), "password updated")
+        self.assertEqual(user.edit_password("20181231"), "password updated")
 
     def test_password3(self):
-        self.assertEqual(user.edit_account_password(), "plz enter something")
+        self.assertEqual(user.edit_password(), "plz enter something")
 
     def test_name1(self):
-        self.assertEqual(user.edit_account_name("SnowJackal"), "it is the current name")
+        self.assertEqual(user.edit_name("SnowJackal"), "it is the current name")
 
     def test_name2(self):
-        self.assertEqual(user.edit_account_name("FireFly"), "name updated")
+        self.assertEqual(user.edit_name("FireFly"), "name updated")
 
     def test_name3(self):
-        self.assertEqual(user.edit_account_name(), "plz enter something")
+        self.assertEqual(user.edit_name(), "plz enter something")
 
     def test_address1(self):
-        self.assertEqual(user.edit_account_address("backyard"), "it is the current address")
+        self.assertEqual(user.edit_address("backyard"), "it is the current address")
 
     def test_address2(self):
-        self.assertEqual(user.edit_account_address("street"), "address updated")
+        self.assertEqual(user.edit_address("street"), "address updated")
 
     def test_address3(self):
-        self.assertEqual(user.edit_account_address(), "plz enter something")
+        self.assertEqual(user.edit_address(), "plz enter something")
 
     def test_email1(self):
-        self.assertEqual(user.edit_account_email("merryXmas@winter.com"), "it is the current email")
+        self.assertEqual(user.edit_email("merryXmas@winter.com"), "it is the current email")
 
     def test_email2(self):
-        self.assertEqual(user.edit_account_email("seeyounextyear@spring.com"), "email updated")
+        self.assertEqual(user.edit_email("seeyounextyear@spring.com"), "email updated")
 
     def test_email3(self):
-        self.assertEqual(user.edit_account_email(), "plz enter something")
+        self.assertEqual(user.edit_email(), "plz enter something")
 
     def test_phonenumber1(self):
-        self.assertEqual(user.edit_account_phonenumber(414000111), "it is the current phonenumber")
+        self.assertEqual(user.edit_phonenumber(414000111), "it is the current phonenumber")
 
     def test_phonenumber2(self):
-        self.assertEqual(user.edit_account_phonenumber(414222333), "phonenumber updated")
+        self.assertEqual(user.edit_phonenumber(414222333), "phonenumber updated")
 
     def test_phonenumber3(self):
-        self.assertEqual(user.edit_account_phonenumber(), "plz enter something")
+        self.assertEqual(user.edit_phonenumber(), "plz enter something")
 
 
 if __name__ == '__main__':
